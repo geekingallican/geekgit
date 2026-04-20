@@ -1,5 +1,6 @@
 import time, requests, os, sys, re, platform, cpuinfo, GPUtil, subprocess, platform, base64, tldextract # type: ignore
 from colorama import init, Fore 
+from ping3 import ping
 init()
 green, red, yellow, purple, cyan, rest = Fore.GREEN, Fore.RED, Fore.YELLOW, Fore.MAGENTA, Fore.CYAN, Fore.RESET
 found = False
@@ -164,9 +165,9 @@ print(tldextract.extract('https://ya.ru'))
 def check_site(url):
     try:
         extracted = tldextract.extract(url)
-        print(f"Пинг с сайта: {extracted.domain}.{extracted.suffix}")
         response = requests.head(url, timeout=5, allow_redirects=True)
         if response.status_code < 400:
+            print(f"Пинг с сайта: ping({extracted.domain}.{extracted.suffix}"))
             print(f"Сайт {url} доступен (Статус: {response.status_code})")
         else:
             print(f"Сайт {url} не отвечает (Статус: {response.status_code})")
