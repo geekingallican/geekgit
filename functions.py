@@ -168,7 +168,7 @@ def check_site(url):
         need_url = f"{extracted.domain}.{extracted.suffix}"
         response = requests.head(url, timeout=5, allow_redirects=True)
         if response.status_code < 400:
-            print(f"Пинг с сайта: {ping(need_url)}")
+            print(f"Пинг с сайта: {round(ping(need_url), 2)} мс")
             print(f"Сайт {url} доступен (Статус: {response.status_code})")
         else:
             print(f"Сайт {url} не отвечает (Статус: {response.status_code})")
