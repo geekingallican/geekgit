@@ -1,4 +1,4 @@
-import time, requests, os, sys, re, platform, cpuinfo, GPUtil, subprocess, platform, base64
+import time, requests, os, sys, re, platform, cpuinfo, GPUtil, subprocess, platform, base64, tldextract # type: ignore
 from colorama import init, Fore 
 init()
 green, red, yellow, purple, cyan, rest = Fore.GREEN, Fore.RED, Fore.YELLOW, Fore.MAGENTA, Fore.CYAN, Fore.RESET
@@ -118,7 +118,7 @@ def system_info():
         login = content[0].strip()
     print(f'\n{yellow}Login: {login}')
     print(f'{yellow}OS: {platform.system()} {platform.release()}')
-    print(f'{yellow}Ip: {requests.get('https://api.ipify.org').text}')
+    print(f"{yellow}Ip: {requests.get('https://api.ipify.org').text}")
     cpu_name = cpuinfo.get_cpu_info()['brand_raw']
     print(f"{yellow}Процессор: {cpu_name}")
     gpus = GPUtil.getGPUs()
@@ -160,9 +160,11 @@ def settings():
                 file.write(f'{reip}')
                 print(f'{green}Ip успешно добавлен'+rest)
                 time.sleep(1)
-
+print(tldextract.extract('https://ya.ru'))
 def check_site(url):
     try:
+        extracted = tldextract.extract(url)
+        print(f"Пинг с сайта: {extracted.domain}.{extracted.suffix}")
         response = requests.head(url, timeout=5, allow_redirects=True)
         if response.status_code < 400:
             print(f"Сайт {url} доступен (Статус: {response.status_code})")
@@ -174,7 +176,7 @@ def check_site(url):
 
 def check():
     writer('---PING CHECKER---', yellow, 0.5)
-    usr_url = input('Введите ссылку на сайт (обязательно указывайте http:// или https://)')
+    usr_url = input('Введите ссылку на сайт (обязательно указывайте http:// или https://): ')
     check_site(usr_url)
 
 def encode_base64(data):
