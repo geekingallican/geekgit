@@ -165,9 +165,10 @@ print(tldextract.extract('https://ya.ru'))
 def check_site(url):
     try:
         extracted = tldextract.extract(url)
+        need_url = f"{extracted.domain}.{extracted.suffix}"
         response = requests.head(url, timeout=5, allow_redirects=True)
         if response.status_code < 400:
-            print(f"Пинг с сайта: ping({extracted.domain}.{extracted.suffix}"))
+            print(f"Пинг с сайта: {ping(need_url)}")
             print(f"Сайт {url} доступен (Статус: {response.status_code})")
         else:
             print(f"Сайт {url} не отвечает (Статус: {response.status_code})")
